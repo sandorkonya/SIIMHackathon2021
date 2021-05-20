@@ -12,7 +12,7 @@ The clinical networks are usually closed ecosystems and the clinicians have only
 This environment does not allow to easily access the PACS to search and retrieve DICOM data programatically.
 
 We found a way, that utilizes WinPthon, a portable, full blown python environment on Windows operating system.
-You can install it from here: https://winpython.github.io/
+You can ~~install~~ unzip and use it from here: https://winpython.github.io/
 
 In the console simply install the dependencies and you can start making queries to the SIIM Hackathlon server to retrieve DICOM data via webDICOM protocoll.
 
