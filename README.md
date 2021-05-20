@@ -36,7 +36,7 @@ File path should look similar to: ./yolactcnn/weights/yolact_base_1630_75000.pth
 - [x] add HTML5 dektop notification by anomaly detection
 - [x] add hoplink to case by clicking "show case" button (alternatively run CLI command to open dicom viewer to review case)
 - [x] add feature to open arbitrary url-s: localhost/inferencedimage?url=xxxxx  just does this ;)
-- [ ] add demo case for detected anomaly
+- [x] add demo case for detected anomaly
 - [ ] ... ?
 - [ ] add dependency list (pip freeze)
 
