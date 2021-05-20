@@ -2,10 +2,7 @@
 
 ## Elevator pitch:
 Flask based web app to query PACS via DICOMweb. 
-Trachea + endotracheal tube segmentation real time.*
-
-* on the way...
-
+Trachea bifurcation + endotracheal tube segmentation real time.
 
 ## Rationale
 The clinical networks are usually closed ecosystems and the clinicians have only resticted user rights on the workstations. 
