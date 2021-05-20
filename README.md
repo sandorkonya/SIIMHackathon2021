@@ -19,7 +19,7 @@ In the console simply install the dependencies and you can start making queries 
 In order to access the SIIM Hackathlon severs, you have to register on thei website: https://siim.org/general/custom.asp?page=hacking_healthcare
 
 
-##TODO
+## TODO
 
 - [x] query for image data on SIIM Hackathon server via webDICOM protocols
 - [x] implement CORS (Cross-origin resource sharing) compliant way to do above
@@ -32,5 +32,6 @@ In order to access the SIIM Hackathlon severs, you have to register on thei webs
 - [ ] add hoplink to case by clicking "show case" button (alternatively run CLI command to open dicom viewer to review case)
 - [ ] ... ?
 
+## How does it look like?
 
  ![showcase](https://github.com/sandorkonya/SIIMHackathon2021/blob/31acfa10fb2cae9560d216dcc6790f8e59412b1e/showreel.gif)
