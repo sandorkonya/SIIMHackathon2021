@@ -33,5 +33,6 @@ In order to access the SIIM Hackathlon severs, you have to register on thei webs
 - [ ] ... ?
 
 ## How does it look like?
+(images curtesy SIIM)
 
  ![showcase](https://github.com/sandorkonya/SIIMHackathon2021/blob/31acfa10fb2cae9560d216dcc6790f8e59412b1e/showreel.gif)
