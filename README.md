@@ -18,6 +18,12 @@ In the console simply install the dependencies and you can start making queries 
 
 In order to access the SIIM Hackathlon severs, you have to register on thei website: https://siim.org/general/custom.asp?page=hacking_healthcare
 
+## Install
+
+Download a Winpython 3.8+ , install dependencies. Create a "weights" folder inside yolactcnn/ and copy the following file into this folder.
+https://drive.google.com/file/d/1sPtNqC3ja7VwtXw_yOmExj8gE7MAN4lc/view?usp=sharing
+File path should look similar to: ./yolactcnn/weights/yolact_base_1630_75000.pth --> see yolactcnn/eval1.py for detail.
+
 
 ## TODO
 
@@ -33,6 +39,7 @@ In order to access the SIIM Hackathlon severs, you have to register on thei webs
 - [x] add HTML5 dektop notificatio by anomaly detection
 - [ ] add hoplink to case by clicking "show case" button (alternatively run CLI command to open dicom viewer to review case)
 - [ ] ... ?
+- [ ] add dependency list (pip freeze)
 
 ## How does it look like?
 (images curtesy SIIM)
