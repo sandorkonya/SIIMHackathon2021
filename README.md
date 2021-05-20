@@ -32,9 +32,11 @@ File path should look similar to: ./yolactcnn/weights/yolact_base_1630_75000.pth
 - [x] implement sequential (!) promise processing instead of parallel ( --> resource sparing for Flask server, memory problems(?) when loading model paralelly)
 - [x] GUI goodies with color coding different results (anomaly vs. no anomaly vs. nothing detected classes)
 - [x] add "privacy mode" by adding class with "blur" style to sensitive information & image data
-- [ ] ad semantic segmentation library into pipeline
-- [x] add HTML5 dektop notificatio by anomaly detection
-- [ ] add hoplink to case by clicking "show case" button (alternatively run CLI command to open dicom viewer to review case)
+- [x] ad instance segmentation library into pipeline
+- [x] add HTML5 dektop notification by anomaly detection
+- [x] add hoplink to case by clicking "show case" button (alternatively run CLI command to open dicom viewer to review case)
+- [x] add feature to open arbitrary url-s: localhost/inferencedimage?url=xxxxx  just does this ;)
+- [ ] add demo case for detected anomaly
 - [ ] ... ?
 - [ ] add dependency list (pip freeze)
 
