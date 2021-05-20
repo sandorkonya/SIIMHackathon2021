@@ -22,8 +22,9 @@ In order to access the SIIM Hackathlon severs, you have to register on thei webs
 ## TODO
 
 - [x] query for image data on SIIM Hackathon server via webDICOM protocols
+- [x] solve various problems due to data heterogenity (missing dicom tags) --> try, catch baby 
 - [x] implement CORS (Cross-origin resource sharing) compliant way to do above
-- [x] integrate basic bootstrap example site in Flask + addd JS libs (lodash, jquery)
+- [x] integrate basic bootstrap example site in Flask + add JS libs (lodash, jquery)
 - [x] implement client side logic in Javascript for populating the site by iterating through the json WADO response
 - [x] implement sequential (!) promise processing instead of parallel ( --> resource sparing for Flask server, memory problems(?) when loading model paralelly)
 - [x] GUI goodies with color coding different results (anomaly vs. no anomaly vs. nothing detected classes)
