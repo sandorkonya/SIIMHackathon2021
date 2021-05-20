@@ -18,6 +18,30 @@
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lodash.js') }}"></script>
 
+
+<style>
+        .blur {
+            filter:blur(0px);
+        }
+
+        .red {
+            background-color: red
+        }
+
+        .blink_me {
+            animation: blinker 3s linear infinite;
+        } 
+
+        @keyframes blinker {
+          50% {
+            opacity: 0;
+          }
+
+
+}
+    </style>
+
+
   </head>
   <body>
 
@@ -79,31 +103,23 @@ function sleep (time) {
 const dohttpinference = (patinfo, allimages) => {
 
   return new Promise((resolve) => {
+        args = {"img":patinfo.StudyUID, "allimages":allimages}
 
-// placeholder for testing async func
- sleep(800).then(() => {
-        //resolve(patinfo)
-
-        console.log("Passed args: ", JSON.stringify(patinfo))
-
+        //console.log("Passed args: ", JSON.stringify(patinfo))
         let id = patinfo.InstanceUID.replace(/ /g, "_").replace(/\./g, '_')
-
         time = patinfo.Time.slice(0, 2) + ":" + patinfo.Time.slice(2, 4)
 
-         html = '<div class="newelem bg-light p-5 rounded" id="holder_'+id+'" style="display: none;"><h3 class="">'+patinfo.Name+'</h3> <h4 class="" style="color:red">' + patinfo.Accession + '</h4><h5>'+ time +'</h5><p class="">'  + patinfo.StudyUID + 
-              ' </p><div class="imageholder" id="'+id+'"><div class="spinner-border text-primary" role="status"></div></div>' +
+        html = '<div class="newelem bg-light p-5 rounded" id="holder_'+id+'" style="display: none;"><h3 class="blur">'+patinfo.Name+'</h3> <h4 class="blur" style="color:red">' + patinfo.Accession + '</h4><h5>'+ time  + '</h5><p class="blur">'  + patinfo.StudyUID + 
+              ' </p><div class="imageholder justify-content-center" id="'+id+'"><div class="spinner-border text-primary" role="status"></div></div>' +
               '</div><hr/>'
 
         $("#container").prepend(html)
         $("#holder_" + id ).show('slow');
 
-                 // html2 = '<div class="card bg-dark text-white"><img src="http://127.0.0.1:5000/getimg?StudyUID='+x.StudyUID+'&SeriesUID='+x.SeriesUID+'&InstanceUID='+x.InstanceUID+'" class="card-img" alt="...">' +
-                 //  '<div class="card-img-overlay">' +
-                 //  '<div class="p-5 rounded"><h3 class="">'+x.Name+'</h3> <h4 class="" style="color:red">' + x.Accession + '</h4><h5>'+ x.Time +'</h5><p class="">'  + x.StudyUID +  ' </p>' +
-                 //  '<p class="card-text">..</p> </div></div></div>'
-              //$("#container").prepend(html2)
-
-      
+        // placeholder for testing async func
+        //sleep(1200).then(() => {
+        //resolve(patinfo)
+        //});
 
         $.ajax({
                     url: "inference",
@@ -113,17 +129,22 @@ const dohttpinference = (patinfo, allimages) => {
                     success: function (msg) {
                       console.log("Response: ", msg)
 
-                      if (msg == "OK") {
-
-                         $("#"+id).html('<img src="'+siteurlbase+'/getimg?StudyUID='+patinfo.StudyUID+'&SeriesUID='+patinfo.SeriesUID+'&InstanceUID='+patinfo.InstanceUID+'" class="" alt="...">')
+                      if ((msg == "OK") || msg == "NoResult") {
+                         $("#"+id).html('<img src="'+siteurlbase+'/getimg?StudyUID='+patinfo.StudyUID+'&SeriesUID='+patinfo.SeriesUID+'&InstanceUID='+patinfo.InstanceUID+'" class="blur img-fluid" alt="...">')
                        // notifyMe()
                       }
-                      else { 
+                      else if (msg == "Anomalydetected") {
+                        $("#"+id).html('<img src="'+siteurlbase+'/getimg?StudyUID='+patinfo.StudyUID+'&SeriesUID='+patinfo.SeriesUID+'&InstanceUID='+patinfo.InstanceUID+'" class="blur img-fluid" alt="...">')
+                        $("#"+id).parent().find("h5").addClass( "text-danger blink_me" );
+                        $("#"+id).parent().removeClass( "bg-light" ).addClass("bg-dark text-light")
                         notifyMe()
                       }
 
-                      resolve(patinfo, msg);
 
+                      btns = '<div class="d-flex justify-content-center mt-2"><button type="button" class="btn btn-info btn-sm">Open Case to review</button></div>'
+                      $("#"+id).parent().append(btns)
+
+                      resolve(patinfo, msg);
 
                     }
                 })
@@ -133,20 +154,15 @@ const dohttpinference = (patinfo, allimages) => {
                     resolve(patinfo, "error")
                 })
 
-
-    });
-
         });
-
 }
 
 const doNextPromise = () => {
 
   //$("#activelyinferencing").html(toinference.length);
-    console.log("doNextPromise fired")
 
       if (toinference.length == 0) {
-        console.log("toinference is empty, quiting")
+        console.log("Nothing more to inference...")
         return true
       }
 
@@ -190,9 +206,9 @@ function notifyMe() {
  if (Notification.permission !== 'granted')
   Notification.requestPermission();
  else {
-  var notification = new Notification('New inference!', {
-   icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-   body: 'Hey there! There is maybe something wrong!',
+  var notification = new Notification('Anomaly detected!', {
+   icon: 'http://assets.stickpng.com/images/5a81af7d9123fa7bcc9b0793.png',
+   body: 'Hey there! There is maybe an anomaly!',
     vibrate: [300],
 
   });
@@ -201,7 +217,6 @@ function notifyMe() {
   };
  }
 }
-
 
 function getlist() { 
 
@@ -220,9 +235,7 @@ function getlist() {
                     //Ajax request failed.
                     var errorMessage = xhr.status + ': ' + xhr.statusText
                   })
-
-      getnewlist.success(function(msg) {
-
+            getnewlist.success(function(msg) {
                   msg = JSON.parse(msg)
 
                   inferencedpatientdata = localStorage.getItem('inferencedpatientdata') || []
@@ -262,9 +275,6 @@ function getlist() {
                           catch{Accession="123456"}
 
                           console.log( Time, " - " , serdesc , " - " , Accession )
-
-
-
                           // we test for our criterion
                         //  if ( serdesc.includes("Thorax PA") || serdesc.includes("Thorax ap") || serdesc.includes("Thorax pa") || serdesc.includes("Bettaufnahme") || serdesc.includes("Intensiv")) {
 
@@ -279,22 +289,17 @@ function getlist() {
 
                             // }
                       });
-
               if (toinference.length > 0) {
                   console.log(toinference.length + " new images to inference!")
                   doNextPromise()
                 }
-
               else {
-                
                 console.log(prettyDate() ,  " - no new images to inference")
               }
 
 
           });
-
 }
-
 
 // to show hh:mm
 //https://stackoverflow.com/questions/19407305/how-to-show-only-hours-and-minutes-from-javascript-date-tolocaletimestring
@@ -317,15 +322,60 @@ function timeout() {
 }
 
 
+function demo() {
+  
+  id = "123456"
+  patinfo = {
+    "Accession":"Accession number",
+    "Name":"Mr. Anonymous Mouse",
+    "serdesc":"Series Description placeholder",
+    "StudyUID":"1.1234.2345.6789.998765433"
+  }
+
+        html = '<div class="newelem bg-light p-5 rounded" id="holder_'+id+'" style="display: none;"><h3 class="">'+patinfo.Name+'</h3> <h4 class="" style="color:red">' + patinfo.Accession + '</h4><h5>'+ prettyDate()  + " / <b>" +  patinfo.serdesc +'</b></h5><p class="">'  + patinfo.StudyUID + 
+              ' </p><div class="imageholder justify-content-center" id="'+id+'"><div class="spinner-border text-primary" role="status"></div></div>' +
+              '</div><hr/>'
+
+        $("#container").prepend(html)
+        $("#holder_" + id ).show('slow');
+
+
+
+        sleep(800).then(() => {
+
+          $("#"+id).html('<img src="http://127.0.0.1:5000/inferencedimage?url=https://medschool.co/images/detail/cxr/ett-bronchus.jpg" class=" img-fluid" alt="...">')
+           btns = '<div class="d-flex justify-content-center mt-2"><button type="button" class="btn btn-info btn-sm" id="button">Open Case to review</button></div>'
+            $("#"+id).parent().append(btns)
+
+             $("#"+id).parent().find("h5").addClass( "text-danger blink_me" );
+            $("#"+id).parent().removeClass( "bg-light" ).addClass("bg-dark text-light")
+                        notifyMe()
+
+            $("#button").on('click', function (e) {
+
+              var getnewlist = $.ajax({
+                      url: 'opencase',
+                      type: 'GET',
+                      contentType: "application/json",
+                      beforeSend: function(xhr){ 
+                      }
+                  })
+
+
+              })
+
+        });
+}
 
 
 //start main script
 getlist()
-//$('.container').empty()
-$("#lastquery").text("Last query - " + prettyDate())
+$('.container').empty()
 timeout()
+$("#lastquery").text("Last query - " + prettyDate())
 
 
+//demo()
 
 
 });
