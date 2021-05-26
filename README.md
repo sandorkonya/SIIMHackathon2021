@@ -15,6 +15,12 @@ In the console simply install the dependencies and you can start making queries 
 
 In order to access the SIIM Hackathlon severs, you have to register on thei website: https://siim.org/general/custom.asp?page=hacking_healthcare
 
+
+## We did it
+![winner](https://github.com/sandorkonya/SIIMHackathon2021/blob/4776f9dded54243ace955b3089f2c6b707acf27a/siim.JPG)
+
+Together with  [Sai Natarajan](https://github.com/sainatarajan) we won the audience choice award!
+
 ## Install
 
 Download a Winpython 3.8+ , install dependencies. Create a "weights" folder inside yolactcnn/ and copy the following file into this folder.
